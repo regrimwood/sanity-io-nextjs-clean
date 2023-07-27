@@ -1,4 +1,4 @@
-import { defineArrayMember, defineType } from 'sanity'
+import { defineArrayMember, defineType } from 'sanity';
 
 /**
  * This is the schema definition for the rich text fields used for
@@ -23,7 +23,7 @@ export default defineType({
       // you want and decide how you want to deal with it where you want to
       // use your content.
       styles: [
-        { title: 'Normal', value: 'normal' },
+        { title: 'Normal', value: 'p' },
         { title: 'H1', value: 'h1' },
         { title: 'H2', value: 'h2' },
         { title: 'H3', value: 'h3' },
@@ -57,4 +57,4 @@ export default defineType({
       },
     }),
   ],
-})
+});

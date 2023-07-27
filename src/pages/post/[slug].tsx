@@ -1,38 +1,38 @@
-import { PortableText } from '@portabletext/react'
-import type { GetStaticProps, InferGetStaticPropsType } from 'next'
-import Image from 'next/image'
-import { useLiveQuery } from 'next-sanity/preview'
+import { PortableText } from '@portabletext/react';
+import type { GetStaticProps, InferGetStaticPropsType } from 'next';
+import Image from 'next/image';
+import { useLiveQuery } from 'next-sanity/preview';
 
-import Container from '~/components/Container'
-import { readToken } from '~/lib/sanity.api'
-import { getClient } from '~/lib/sanity.client'
-import { urlForImage } from '~/lib/sanity.image'
+import Container from '~/components/Container';
+import { readToken } from '~/lib/sanity.api';
+import { getClient } from '~/lib/sanity.client';
+import { urlForImage } from '~/lib/sanity.image';
 import {
   getPost,
   type Post,
   postBySlugQuery,
   postSlugsQuery,
-} from '~/lib/sanity.queries'
-import type { SharedPageProps } from '~/pages/_app'
-import { formatDate } from '~/utils'
+} from '~/lib/sanity.queries';
+import type { SharedPageProps } from '~/pages/_app';
+import { formatDate } from '~/utils';
 
 interface Query {
-  [key: string]: string
+  [key: string]: string;
 }
 
 export const getStaticProps: GetStaticProps<
   SharedPageProps & {
-    post: Post
+    post: Post;
   },
   Query
 > = async ({ draftMode = false, params = {} }) => {
-  const client = getClient(draftMode ? { token: readToken } : undefined)
-  const post = await getPost(client, params.slug)
+  const client = getClient(draftMode ? { token: readToken } : undefined);
+  const post = await getPost(client, params.slug);
 
   if (!post) {
     return {
       notFound: true,
-    }
+    };
   }
 
   return {
@@ -41,15 +41,15 @@ export const getStaticProps: GetStaticProps<
       token: draftMode ? readToken : '',
       post,
     },
-  }
-}
+  };
+};
 
 export default function ProjectSlugRoute(
-  props: InferGetStaticPropsType<typeof getStaticProps>
+  props: InferGetStaticPropsType<typeof getStaticProps>,
 ) {
   const [post] = useLiveQuery(props.post, postBySlugQuery, {
     slug: props.post.slug.current,
-  })
+  });
 
   return (
     <Container>
@@ -75,15 +75,15 @@ export default function ProjectSlugRoute(
         </div>
       </section>
     </Container>
-  )
+  );
 }
 
 export const getStaticPaths = async () => {
-  const client = getClient()
-  const slugs = await client.fetch(postSlugsQuery)
+  const client = getClient();
+  const slugs = await client.fetch(postSlugsQuery);
 
   return {
     paths: slugs?.map(({ slug }) => `/post/${slug}`) || [],
     fallback: 'blocking',
-  }
-}
+  };
+};

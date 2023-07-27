@@ -2,9 +2,9 @@
  * This config is used to set up Sanity Studio that's mounted on the `/pages/studio/[[...index]].tsx` route
  */
 
-import { visionTool } from '@sanity/vision'
-import { defineConfig } from 'sanity'
-import { deskTool } from 'sanity/desk'
+import { visionTool } from '@sanity/vision';
+import { defineConfig } from 'sanity';
+import { deskTool } from 'sanity/desk';
 
 // see https://www.sanity.io/docs/api-versioning for how versioning works
 import {
@@ -12,14 +12,14 @@ import {
   dataset,
   previewSecretId,
   projectId,
-} from '~/lib/sanity.api'
-import { schema } from '~/schemas'
-import { productionUrl } from '~/utils/productionUrl'
+} from '~/lib/sanity.api';
+import { schema } from '~/schemas';
+import { productionUrl } from '~/utils/productionUrl';
 
 export default defineConfig({
   basePath: '/studio',
-  name: 'project-name',
-  title: 'Project Name',
+  name: 'my-project',
+  title: 'My Project',
   projectId,
   dataset,
   //edit schemas in './src/schemas'
@@ -31,4 +31,4 @@ export default defineConfig({
     visionTool({ defaultApiVersion: apiVersion }),
     productionUrl({ previewSecretId, types: ['post'], apiVersion }),
   ],
-})
+});
