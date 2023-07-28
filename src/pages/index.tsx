@@ -1,7 +1,6 @@
 import type { GetStaticProps, InferGetStaticPropsType } from 'next';
 import { useLiveQuery } from 'next-sanity/preview';
 import Card from '~/components/Card';
-import Container from '~/components/Container';
 import Welcome from '~/components/Welcome';
 import { PostModel } from '~/lib/models/PostModel';
 import { getPosts, postsQuery } from '~/lib/queries/getPosts';
@@ -13,15 +12,13 @@ function IndexPage(props: InferGetStaticPropsType<typeof getStaticProps>) {
   const [posts] = useLiveQuery<PostModel[]>(props.posts, postsQuery);
 
   return (
-    <Container>
-      <section>
-        {posts.length ? (
-          posts.map((post) => <Card key={post._id} post={post} />)
-        ) : (
-          <Welcome />
-        )}
-      </section>
-    </Container>
+    <section>
+      {posts.length ? (
+        posts.map((post) => <Card key={post._id} post={post} />)
+      ) : (
+        <Welcome />
+      )}
+    </section>
   );
 }
 
