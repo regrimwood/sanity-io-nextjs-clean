@@ -6,9 +6,9 @@
 
 import { definePlugin, type Slug } from 'sanity';
 
-import { getPreviewSecret } from './previewSecret';
+import getPreviewSecret from './getPreviewSecret';
 
-export const productionUrl = definePlugin<{
+const productionUrl = definePlugin<{
   previewSecretId: `${string}.${string}`;
   types: string[];
   apiVersion?: string;
@@ -56,3 +56,5 @@ export const productionUrl = definePlugin<{
     },
   };
 });
+
+export default productionUrl;

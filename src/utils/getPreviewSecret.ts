@@ -1,6 +1,6 @@
 import { groq, type SanityClient } from 'next-sanity';
 
-import { createRandomUUID } from './uuid';
+import createRandomUUID from './createRandomUuid';
 
 // updated within the hour, if it's older it'll create a new secret or return null
 const query = (ttl: number) => groq`
@@ -9,7 +9,7 @@ const query = (ttl: number) => groq`
 
 const tag = 'preview.secret';
 
-export async function getPreviewSecret(options: {
+export default async function getPreviewSecret(options: {
   client: SanityClient;
   id: `${string}.${string}`;
   createIfNotExists?: true | (() => string);

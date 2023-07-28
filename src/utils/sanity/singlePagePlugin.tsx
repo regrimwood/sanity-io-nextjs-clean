@@ -2,9 +2,7 @@
  * This plugin contains all the logic for setting up the singletons
  */
 
-import { ComponentType, ReactNode } from 'react';
-import { definePlugin, type DocumentDefinition } from 'sanity';
-import { type StructureResolver } from 'sanity/desk';
+import { definePlugin } from 'sanity';
 
 export default function singlePagePlugin(types: string[]) {
   return definePlugin({

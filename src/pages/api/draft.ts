@@ -1,8 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-
-import { previewSecretId, readToken } from '~/lib/sanity.api';
-import { getClient } from '~/lib/sanity.client';
-import { getPreviewSecret } from '~/utils/previewSecret';
+import { previewSecretId, readToken } from '../../utils/sanity/sanity.api';
+import getClient from '../../utils/sanity/sanity.client';
+import getPreviewSecret from '../../utils/getPreviewSecret';
 
 export default async function preview(
   req: NextApiRequest,

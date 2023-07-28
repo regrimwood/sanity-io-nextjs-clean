@@ -1,6 +1,6 @@
 import nodeCrypto from 'crypto';
 
-export function createRandomUUID() {
+export default function createRandomUUID() {
   if (typeof crypto !== 'undefined') {
     return crypto.randomUUID();
   }

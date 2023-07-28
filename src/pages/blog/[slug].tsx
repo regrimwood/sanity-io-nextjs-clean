@@ -2,14 +2,14 @@ import { PortableText } from '@portabletext/react';
 import type { GetStaticProps, InferGetStaticPropsType } from 'next';
 import Image from 'next/image';
 import { useLiveQuery } from 'next-sanity/preview';
-import { readToken } from '~/lib/sanity.api';
-import { getClient } from '~/lib/sanity.client';
-import { urlForImage } from '~/lib/sanity.image';
-import type { SharedPageProps } from '~/pages/_app';
-import formatDate from '~/utils/formatDate';
-import { getAllPostsSlugs } from '~/lib/queries/getAllPostSlugs';
-import { getPost, postBySlugQuery } from '~/lib/queries/getPost';
-import { PostModel } from '~/lib/models/PostModel';
+import { readToken } from '../../utils/sanity/sanity.api';
+import getClient from '../../utils/sanity/sanity.client';
+import urlForImage from '../../utils/sanity/sanity.image';
+import type { SharedPageProps } from '../_app';
+import formatDate from '../../utils/formatDate';
+import { getAllPostsSlugs } from '../../utils/queries/getAllPostSlugs';
+import { getPost, postBySlugQuery } from '../../utils/queries/getPost';
+import { PostModel } from '../../utils/models/PostModel';
 
 interface Query {
   [key: string]: string;

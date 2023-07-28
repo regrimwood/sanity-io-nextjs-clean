@@ -12,11 +12,11 @@ import {
   dataset,
   previewSecretId,
   projectId,
-} from '~/lib/sanity.api';
+} from '~/utils/sanity/sanity.api';
 import { schema } from '~/schemas';
 import homePage from '~/schemas/pages/homePage';
 import deskToolStructure from '~/utils/sanity/deskToolStructure';
-import { productionUrl } from '~/utils/productionUrl';
+import productionUrl from '~/utils/productionUrl';
 import singlePagePlugin from '~/utils/sanity/singlePagePlugin';
 
 export default defineConfig({

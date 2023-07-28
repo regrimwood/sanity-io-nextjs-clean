@@ -1,7 +1,7 @@
 import { groq } from 'next-sanity';
 import type { Slug } from '@sanity/types';
 import { PostModel } from '../models/PostModel';
-import { getClient } from '../sanity.client';
+import getClient from '../sanity/sanity.client';
 
 export const postSlugsQuery = groq`
 *[_type == "post" && defined(slug.current)][].slug.current

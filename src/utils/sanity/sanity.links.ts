@@ -1,4 +1,4 @@
-export function resolveHref(
+export default function resolveHref(
   documentType?: string,
   slug?: string,
 ): string | undefined {

@@ -1,8 +1,8 @@
 import Image from 'next/image';
-import { PostModel } from '~/lib/models/PostModel';
-import { urlForImage } from '~/lib/sanity.image';
-import { resolveHref } from '~/lib/sanity.links';
-import formatDate from '~/utils/formatDate';
+import { PostModel } from '../utils/models/PostModel';
+import urlForImage from '../utils/sanity/sanity.image';
+import resolveHref from '../utils/sanity/sanity.links';
+import formatDate from '../utils/formatDate';
 
 export default function Card({ post }: { post: PostModel }) {
   return (
