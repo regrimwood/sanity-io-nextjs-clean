@@ -1,10 +1,10 @@
 import Image from 'next/image';
-
+import { PostModel } from '~/lib/models/PostModel';
 import { urlForImage } from '~/lib/sanity.image';
-import { type Post } from '~/lib/sanity.queries';
+import { resolveHref } from '~/lib/sanity.links';
 import { formatDate } from '~/utils';
 
-export default function Card({ post }: { post: Post }) {
+export default function Card({ post }: { post: PostModel }) {
   return (
     <div className="card">
       {post.mainImage ? (
@@ -20,7 +20,10 @@ export default function Card({ post }: { post: Post }) {
       )}
       <div className="card__container">
         <h3 className="card__title">
-          <a className="card__link" href={`/post/${post.slug.current}`}>
+          <a
+            className="card__link"
+            href={resolveHref(post.slug.current, post._type)}
+          >
             {post.title}
           </a>
         </h3>

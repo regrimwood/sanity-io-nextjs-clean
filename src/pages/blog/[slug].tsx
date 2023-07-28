@@ -7,42 +7,15 @@ import Container from '~/components/Container';
 import { readToken } from '~/lib/sanity.api';
 import { getClient } from '~/lib/sanity.client';
 import { urlForImage } from '~/lib/sanity.image';
-import {
-  getPost,
-  type Post,
-  postBySlugQuery,
-  postSlugsQuery,
-} from '~/lib/sanity.queries';
 import type { SharedPageProps } from '~/pages/_app';
 import { formatDate } from '~/utils';
+import { getAllPostsSlugs } from '~/lib/queries/getAllPostSlugs';
+import { getPost, postBySlugQuery } from '~/lib/queries/getPost';
+import { PostModel } from '~/lib/models/PostModel';
 
 interface Query {
   [key: string]: string;
 }
-
-export const getStaticProps: GetStaticProps<
-  SharedPageProps & {
-    post: Post;
-  },
-  Query
-> = async ({ draftMode = false, params = {} }) => {
-  const client = getClient(draftMode ? { token: readToken } : undefined);
-  const post = await getPost(client, params.slug);
-
-  if (!post) {
-    return {
-      notFound: true,
-    };
-  }
-
-  return {
-    props: {
-      draftMode,
-      token: draftMode ? readToken : '',
-      post,
-    },
-  };
-};
 
 export default function ProjectSlugRoute(
   props: InferGetStaticPropsType<typeof getStaticProps>,
@@ -78,9 +51,34 @@ export default function ProjectSlugRoute(
   );
 }
 
+export const getStaticProps: GetStaticProps<
+  SharedPageProps & {
+    post: PostModel;
+  },
+  Query
+> = async ({ draftMode = false, params = {} }) => {
+  const client = getClient(draftMode ? { token: readToken } : undefined);
+  const post = await getPost(client, params.slug);
+
+  if (!post) {
+    return {
+      notFound: true,
+    };
+  }
+
+  return {
+    props: {
+      draftMode,
+      token: draftMode ? readToken : '',
+      post,
+    },
+  };
+};
+
 export const getStaticPaths = async () => {
-  const client = getClient();
-  const slugs = await client.fetch(postSlugsQuery);
+  const slugs = await getAllPostsSlugs();
+
+  console.log(slugs?.map(({ slug }) => `/post/${slug}`) || []);
 
   return {
     paths: slugs?.map(({ slug }) => `/post/${slug}`) || [],

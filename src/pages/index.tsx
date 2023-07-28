@@ -3,13 +3,15 @@ import { useLiveQuery } from 'next-sanity/preview';
 import Card from '~/components/Card';
 import Container from '~/components/Container';
 import Welcome from '~/components/Welcome';
+import { PostModel } from '~/lib/models/PostModel';
+import { getPosts, postsQuery } from '~/lib/queries/getPosts';
 import { readToken } from '~/lib/sanity.api';
 import { getClient } from '~/lib/sanity.client';
-import { getPosts, type Post, postsQuery } from '~/lib/sanity.queries';
 import type { SharedPageProps } from '~/pages/_app';
 
 function IndexPage(props: InferGetStaticPropsType<typeof getStaticProps>) {
-  const [posts] = useLiveQuery<Post[]>(props.posts, postsQuery);
+  const [posts] = useLiveQuery<PostModel[]>(props.posts, postsQuery);
+
   return (
     <Container>
       <section>
@@ -25,7 +27,7 @@ function IndexPage(props: InferGetStaticPropsType<typeof getStaticProps>) {
 
 export const getStaticProps: GetStaticProps<
   SharedPageProps & {
-    posts: Post[];
+    posts: PostModel[];
   }
 > = async ({ draftMode = false }) => {
   const client = getClient(draftMode ? { token: readToken } : undefined);
