@@ -14,7 +14,10 @@ import {
   projectId,
 } from '~/lib/sanity.api';
 import { schema } from '~/schemas';
+import homePage from '~/schemas/pages/homePage';
+import deskToolStructure from '~/utils/sanity/deskToolStructure';
 import { productionUrl } from '~/utils/productionUrl';
+import singlePagePlugin from '~/utils/sanity/singlePagePlugin';
 
 export default defineConfig({
   basePath: '/studio',
@@ -22,10 +25,12 @@ export default defineConfig({
   title: 'My Project',
   projectId,
   dataset,
-  //edit schemas in './src/schemas'
   schema,
   plugins: [
-    deskTool(),
+    deskTool({
+      structure: deskToolStructure([homePage]),
+    }),
+    singlePagePlugin([homePage.name]),
     // Vision lets you query your content with GROQ in the studio
     // https://www.sanity.io/docs/the-vision-plugin
     visionTool({ defaultApiVersion: apiVersion }),
