@@ -1,6 +1,6 @@
 import createImageUrlBuilder from '@sanity/image-url';
 import type { Image } from 'sanity';
-import MissingImage from '../assets/images/Missing.png';
+import MissingImage from '../../assets/images/Missing.png';
 
 import { dataset, projectId } from '~/utils/sanity/sanity.api';
 
