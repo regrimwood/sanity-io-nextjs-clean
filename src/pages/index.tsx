@@ -39,27 +39,29 @@ function HomePage(props: HomePageProps) {
           Posts
         </Typography>
       </ContentContainer>
-      {isDesktop ? (
-        <ContentContainer>
-          <AnimationFadeIn threshold={0.1}>
-            <Grid container spacing={2.5}>
+      <Box overflow="hidden">
+        {isDesktop ? (
+          <ContentContainer>
+            <AnimationFadeIn threshold={0.1}>
+              <Grid container spacing={2.5}>
+                {showcasePosts.map((post) => (
+                  <Grid item xs={3} key={post._id}>
+                    <Card post={post} />
+                  </Grid>
+                ))}
+              </Grid>
+            </AnimationFadeIn>
+          </ContentContainer>
+        ) : (
+          <AnimationFadeIn threshold={0.3}>
+            <HorizontalSlider px={isTablet ? 3.75 : 1.875}>
               {showcasePosts.map((post) => (
-                <Grid item xs={3} key={post._id}>
-                  <Card post={post} />
-                </Grid>
+                <Card post={post} key={post._id} />
               ))}
-            </Grid>
+            </HorizontalSlider>
           </AnimationFadeIn>
-        </ContentContainer>
-      ) : (
-        <AnimationFadeIn threshold={0.3}>
-          <HorizontalSlider px={isTablet ? 3.75 : 1.875}>
-            {showcasePosts.map((post) => (
-              <Card post={post} key={post._id} />
-            ))}
-          </HorizontalSlider>
-        </AnimationFadeIn>
-      )}
+        )}
+      </Box>
     </Box>
   );
 }
