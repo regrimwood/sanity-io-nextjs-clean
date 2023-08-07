@@ -2,6 +2,17 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { previewSecretId, readToken } from '../../utils/sanity/sanity.api';
 import getClient from '../../utils/sanity/sanity.client';
 import getPreviewSecret from '../../utils/getPreviewSecret';
+import resolveHref from '~/utils/sanity/sanity.links';
+
+function redirectToPreview(
+  res: NextApiResponse<string | void>,
+  Location: string,
+): void {
+  // Enable Draft Mode by setting the cookies
+  res.setDraftMode({ enable: true });
+  res.writeHead(307, { Location });
+  res.end();
+}
 
 export default async function preview(
   req: NextApiRequest,
@@ -43,13 +54,15 @@ export default async function preview(
     return res.status(401).send('Invalid secret');
   }
 
-  if (slug) {
-    res.setPreviewData({ token: readToken });
-    res.writeHead(307, { Location: `/post/${slug}` });
-    res.end();
-    return;
+  const href = resolveHref(req.query.documentType as string, slug as string);
+
+  if (!href) {
+    return res
+      .status(400)
+      .send(
+        'Unable to resolve preview URL based on the current document type and slug',
+      );
   }
 
-  res.status(404).send('Slug query parameter is required');
-  res.end();
+  return redirectToPreview(res, href);
 }

@@ -15,9 +15,12 @@ import {
 } from '~/utils/sanity/sanity.api';
 import { schema } from '~/schemas';
 import homePage from '~/schemas/pages/homePage';
+import post from '~/schemas/post';
 import deskToolStructure from '~/utils/sanity/deskToolStructure';
 import productionUrl from '~/utils/productionUrl';
 import singlePagePlugin from '~/utils/sanity/singlePagePlugin';
+
+export const PREVIEWABLE_DOCUMENT_TYPES: string[] = [homePage.name, post.name];
 
 export default defineConfig({
   basePath: '/studio',
@@ -34,6 +37,10 @@ export default defineConfig({
     // Vision lets you query your content with GROQ in the studio
     // https://www.sanity.io/docs/the-vision-plugin
     visionTool({ defaultApiVersion: apiVersion }),
-    productionUrl({ previewSecretId, types: ['post'], apiVersion }),
+    productionUrl({
+      previewSecretId,
+      types: PREVIEWABLE_DOCUMENT_TYPES,
+      apiVersion,
+    }),
   ],
 });

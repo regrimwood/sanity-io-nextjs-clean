@@ -27,8 +27,8 @@ export default defineType({
       rows: 4,
     }),
     defineField({
-      name: 'mainImage',
-      title: 'Main image',
+      name: 'coverImage',
+      title: 'Cover image',
       type: 'image',
       options: {
         hotspot: true,
@@ -44,7 +44,7 @@ export default defineType({
     select: {
       title: 'title',
       author: 'author.name',
-      media: 'mainImage',
+      media: 'coverImage',
     },
     prepare(selection) {
       const { author } = selection;
