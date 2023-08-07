@@ -1,58 +1,53 @@
-import '~/styles/global.css'
+import '../styles/globals.css';
+import { lazy } from 'react';
+import { CssBaseline, ThemeProvider } from '@mui/material';
+import { EmotionCache } from '@emotion/cache';
+import { CacheProvider } from '@emotion/react';
+import type { AppContext, AppProps } from 'next/app';
+import createEmotionCache from '../utils/createEmotionCache';
+import theme from '../styles/theme/theme';
+import App from 'next/app';
 
-import { IBM_Plex_Mono, Inter, PT_Serif } from '@next/font/google'
-import type { AppProps } from 'next/app'
-import { lazy } from 'react'
+// Client-side cache, shared for the whole session of the user in the browser.
+const clientSideEmotionCache = createEmotionCache();
 
 export interface SharedPageProps {
-  draftMode: boolean
-  token: string
+  draftMode: boolean;
+  token: string;
 }
 
-const PreviewProvider = lazy(() => import('~/components/PreviewProvider'))
+interface MyAppProps extends SharedPageProps, AppProps {
+  emotionCache?: EmotionCache;
+}
 
-const mono = IBM_Plex_Mono({
-  variable: '--font-family-mono',
-  subsets: ['latin'],
-  weight: ['500', '700'],
-})
+const PreviewProvider = lazy(() => import('~/components/PreviewProvider'));
 
-const sans = Inter({
-  variable: '--font-family-sans',
-  subsets: ['latin'],
-  weight: ['500', '700', '800'],
-})
-
-const serif = PT_Serif({
-  variable: '--font-family-serif',
-  style: ['normal', 'italic'],
-  subsets: ['latin'],
-  weight: ['400', '700'],
-})
-
-export default function App({
+function MyApp({
   Component,
   pageProps,
-}: AppProps<SharedPageProps>) {
-  const { draftMode, token } = pageProps
+  emotionCache = clientSideEmotionCache,
+}: MyAppProps) {
+  const { draftMode, token } = pageProps;
   return (
-    <>
-      <style jsx global>
-        {`
-          :root {
-            --font-family-sans: ${sans.style.fontFamily};
-            --font-family-serif: ${serif.style.fontFamily};
-            --font-family-mono: ${mono.style.fontFamily};
-          }
-        `}
-      </style>
-      {draftMode ? (
-        <PreviewProvider token={token}>
+    <CacheProvider value={emotionCache}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        {draftMode ? (
+          <PreviewProvider token={token}>
+            <Component {...pageProps} />
+          </PreviewProvider>
+        ) : (
           <Component {...pageProps} />
-        </PreviewProvider>
-      ) : (
-        <Component {...pageProps} />
-      )}
-    </>
-  )
+        )}
+      </ThemeProvider>
+    </CacheProvider>
+  );
 }
+
+MyApp.getInitialProps = async (appContext: AppContext) => {
+  const appProps = await App.getInitialProps(appContext);
+
+  return { ...appProps };
+};
+
+export default MyApp;

@@ -1,6 +1,35 @@
 /** @type {import('next').NextConfig} */
 const config = {
-  images: { remotePatterns: [{ hostname: 'cdn.sanity.io' }] },
-}
+  reactStrictMode: true,
+  swcMinify: true,
 
-export default config
+  images: { remotePatterns: [{ hostname: 'cdn.sanity.io' }] },
+
+  webpack(config) {
+    config.module.rules.push({
+      test: /\.svg$/,
+      use: {
+        loader: '@svgr/webpack',
+        options: {
+          svgoConfig: {
+            plugins: [
+              {
+                name: 'removeViewBox',
+                active: false,
+              },
+            ],
+          },
+        },
+      },
+    });
+
+    config.module.rules.push({
+      test: /\.glsl/,
+      type: 'asset/source',
+    });
+
+    return config;
+  },
+};
+
+export default config;
